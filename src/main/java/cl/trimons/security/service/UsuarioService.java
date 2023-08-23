@@ -35,9 +35,8 @@ public class UsuarioService implements UserDetailsService{
 	    if (usuario == null) {
 	        throw new UsernameNotFoundException("Usuario is not Found");
 	     }
-	     return new org.springframework.security.core.userdetails.User(usuario.getUsername(),
-	           usuario.getPassword(),
-	           mapRolesToAuthorities(usuario.getRoles()));
+//	     return new org.springframework.security.core.userdetails.User(usuario.getUsername(), usuario.getPassword(), mapRolesToAuthorities(usuario.getRoles()));
+	     return usuario;
 	}
 	
 	

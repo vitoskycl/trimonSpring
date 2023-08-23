@@ -1,9 +1,14 @@
 package cl.trimons.security.entity;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,15 +20,19 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+import jakarta.transaction.Transactional;
 import lombok.Getter;
 import lombok.Setter;
-
+ 
 @Entity
 @Getter
 @Setter
-public class Usuario {
+@Transactional
+public class Usuario implements UserDetails {
 
-    @Id
+    private static final long serialVersionUID = -495589395260720686L;
+
+	@Id
     @Column(nullable = false, updatable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idUsuario;
@@ -52,7 +61,34 @@ public class Usuario {
        inverseJoinColumns = @JoinColumn(name = "idRol"))
     private List<Rol> roles;
     
-	public String toString(){
-		return ToStringBuilder.reflectionToString(this);
+//	public String toString(){
+//		return ToStringBuilder.reflectionToString(this);
+//	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+	     return roles.stream()
+		           .map(role -> new SimpleGrantedAuthority(role.getNombre()))
+		           .collect(Collectors.toList());
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return true;
 	}  
 }

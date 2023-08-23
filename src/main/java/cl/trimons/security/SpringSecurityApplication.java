@@ -17,6 +17,7 @@ public class SpringSecurityApplication {
 	public static void main(String[] args) {
 		log.info("INICIANDO LA APLICACION");
 		SpringApplication.run(SpringSecurityApplication.class, args);
+		log.info("APLICACION LISTA PARA RECIBIR");
 				
 	}
 

@@ -8,12 +8,14 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.transaction.Transactional;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
+@Transactional
 public class Rol {
 
     @Id
@@ -27,4 +29,26 @@ public class Rol {
     @OneToMany(mappedBy = "rol")
     private Set<UsuarioInRol> rolUsuarioInRols;
 
+    
+    
+	public Rol(String nombre) {
+		this.nombre = nombre;
+	}
+
+
+
+	public Rol() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+
+
+	public Rol(Integer idRol, String nombre) {
+		super();
+		this.idRol = idRol;
+		this.nombre = nombre;
+	}
+
+    
 }

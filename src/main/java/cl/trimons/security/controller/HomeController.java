@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cl.trimons.security.entity.Usuario;
 import cl.trimons.security.service.UsuarioService;
+import jakarta.annotation.security.RolesAllowed;
 
 @RestController
 public class HomeController {
@@ -18,9 +19,16 @@ public class HomeController {
 	private UsuarioService usuarioService;
 	
 	@GetMapping("/home")
+	@RolesAllowed("ADMIN")
 	public ResponseEntity<String> home(){
-		return new ResponseEntity<String>("Bienvenido", HttpStatus.OK);
+		return new ResponseEntity<String>("Bienvenido a mi hogar", HttpStatus.OK);
 	}
+	
+	@GetMapping("/casa")
+	@RolesAllowed({"USER", "EDITOR"})
+	public ResponseEntity<String> casa(){
+		return new ResponseEntity<String>("Bienvenido a mi casa", HttpStatus.OK);
+	}	
 	
 	@PostMapping("/usuario")
 	public ResponseEntity<Usuario> save(@RequestBody Usuario nuevoUsuario) {
